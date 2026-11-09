@@ -1,0 +1,56 @@
+import type { Meta, StoryObj } from "@storybook/react";
+import { Gallery } from "./Gallery";
+
+const u = (file: string) => `/catalog/${file}`;
+const meta: Meta<typeof Gallery> = {
+  title: "Media/Gallery",
+  component: Gallery,
+  parameters: {
+    docs: {
+      description: {
+        component: `
+A product gallery: one large image and a row of thumbnail buttons. \`label\` names the group ("Product images"). Every image needs an \`alt\`; \`thumbnail\` is optional and falls back to \`src\`. Set \`video\` to play a film in that slide; \`src\` stays the poster. Moving over a photo magnifies that spot. Zoom opens a closer view with zoom in and zoom out. Video slides do not zoom.
+
+Arrow keys move between thumbnails. The selected thumbnail is announced, and a live region announces which image is showing.
+
+\`\`\`tsx
+<Gallery
+  label="Product images"
+  images={[
+    { src: front, alt: "Navy shirt, front" },
+    { src: back, alt: "Navy shirt, back" },
+  ]}
+/>
+\`\`\`
+        `,
+      },
+    },
+  },
+};
+export default meta;
+type Story = StoryObj<typeof Gallery>;
+
+export const ProductGallery: Story = {
+  args: {
+    label: "Product images",
+    images: [
+      { src: u("Product16.png"), alt: "Olive bomber jacket" },
+      { src: u("Product17.png"), alt: "Blush pointed heels" },
+      { src: u("Product18.png"), alt: "Blush wrap dress" },
+    ],
+  },
+  render: (args) => <div style={{ maxWidth: 560 }}><Gallery {...args} /></div>,
+};
+
+const film = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
+
+export const WithVideo: Story = {
+  args: {
+    label: "Product images",
+    images: [
+      { src: u("Product17.png"), alt: "Blush pointed heels" },
+      { src: u("Product17.png"), alt: "Pointed heels video", video: film },
+    ],
+  },
+  render: (args) => <div style={{ maxWidth: 560 }}><Gallery {...args} /></div>,
+};
